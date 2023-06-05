@@ -1,0 +1,7 @@
+name: RestartMobs
+version: '${project.version}'
+main: restartcraft.restartmobs.RestartMobs
+api-version: 1.19
+depend: [ eco, EcoSkills ]
+authors: [ lsgey4ik ]
+description: custom lvl mobs for RestartCraft

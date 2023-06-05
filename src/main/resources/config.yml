@@ -1,0 +1,85 @@
+hp-bar:
+  pattern: "&x&C&8&C&8&C&8[{lvl}ур.] &x&A&3&F&F&C&E{name} &8| &x&F&F&8&4&8&4{health} ❤"
+  bossbar:
+    enabled: false
+  customname:
+    enabled: true
+    time-to-mob-despawn: 120 # время в секундах
+    always-visible: false
+
+
+multiplier: # в процентиках увеличение урона/хп за уровень
+  health: 10
+  damage: 10
+
+check-radius: 10 # радиус проверки для калькулирования силы моба
+
+spawn-reasons: # причины спавна, которые мы отслеживаем и усиливаем моба
+  - "NATURAL"
+  - "JOCKEY"
+  - "SPAWNER"
+  - "EGG"
+  - "SPAWNER_EGG"
+  - "LIGHTNING"
+  - "BUILD_SNOWMAN"
+  - "BUILD_IRONGOLEM"
+  - "BUILD_WITHER"
+  - "VILLAGE_DEFENSE"
+  - "VILLAGE_INVASION"
+  - "BREEDING"
+  - "SLIME_SPLIT"
+  - "REINFORCEMENTS"
+  - "NETHER_PORTAL"
+  - "DISPENSE_EGG"
+  - "INFECTION"
+  - "CURED"
+  - "OCELOT_BABY"
+  - "SILVERFISH_BLOCK"
+  - "MOUNT"
+  - "TRAP"
+  - "ENDER_PEARL"
+  - "SHOULDER_ENTITY"
+  - "DROWNED"
+  - "SHEARED"
+  - "EXPLOSION"
+  - "RAID"
+  - "PATROL"
+  - "BEEHIVE"
+  - "PIGLIN_ZOMBIFIED"
+  - "COMMAND"
+  - "CUSTOM"
+  - "DEFAULT"
+
+mobs:
+  blaze: Всполох
+  cave_spider: Пещерный паук
+  creeper: Крипер
+  enderman: Эндермен
+  endermite: Эндермит
+  evoker: Заклинатель
+  evoker_fangs: Клыки заклинателя
+  ghast: Гаст
+  giant: Гигант
+  guardian: Страж
+  husk: Кадавр
+  illusioner: Иллюзор
+  piglin: Пиглин
+  hoglin: Хоглин
+  shulker: Шалкер
+  silverfish: Чешуйница
+  skeleton: Скелет
+  slime: Слизень
+  spider: Паук
+  vex: Вредина
+  vindicator: Поборник
+  witch: Ведьма
+  wither_skeleton: Визер-скелет
+  zombie: Зомби
+  drowned: Утопленник
+  magma_cube: Магмовый куб
+  piglin_brute: Брутальный пиглин
+  pillager: Разбойник
+  ravager: Разоритель
+  zombified_piglin: Зомбифицированный пиглин
+  zombie_villager: Крестьянин-зомби
+  stray: Зимогор
