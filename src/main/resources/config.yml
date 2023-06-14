@@ -4,7 +4,7 @@ hp-bar:
     enabled: false
   customname:
     enabled: true
-    time-to-mob-despawn: 120 # время в секундах
+    time-to-mob-despawn: 120 # время в секундах, если 0 = выключено.
     always-visible: false
 
 

@@ -105,7 +105,8 @@ public class EventListener implements Listener {
 
             entity.customName(StringUtils.formatToComponent(titleText));
             entity.setCustomNameVisible(core.isAlways_visible());
-            Bukkit.getScheduler().scheduleSyncDelayedTask(RestartMobs.getInstance(), entity::remove, 20L * core.getDespawnMob());
+            if(core.getDespawnMob() > 0)
+                Bukkit.getScheduler().scheduleSyncDelayedTask(RestartMobs.getInstance(), entity::remove, 20L * core.getDespawnMob());
         }
     }
 

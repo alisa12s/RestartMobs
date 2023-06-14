@@ -56,7 +56,8 @@ public class Core {
                     -> defaultLevel = lvl.get() / (4 * count.get()), 20 + (shag.get() * 4L));
         }, 0, 20 * 60 * 10);
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(RestartMobs.getInstance(), ()
+        if(despawnMob > 0)
+            Bukkit.getScheduler().scheduleSyncDelayedTask(RestartMobs.getInstance(), ()
                 -> Bukkit.getScheduler().scheduleSyncRepeatingTask(RestartMobs.getInstance(), ()
                 -> Bukkit.getWorlds().forEach(world
                 -> world.getEntities().forEach(entity -> {
