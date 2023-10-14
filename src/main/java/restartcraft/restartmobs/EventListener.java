@@ -69,14 +69,18 @@ public class EventListener implements Listener {
         if(!core.getSpawn_reason().contains(event.getSpawnReason().toString()))
             return;
 
+        boolean spawner = event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER;
+
         if(!core.getMobList().containsKey(event.getEntity().getType().toString().toLowerCase())) return;
 
         LivingEntity entity = event.getEntity();
 
         double radius = core.getCheck_radius();
+        if(spawner) radius = radius * 2;
 
         AtomicInteger count = new AtomicInteger(0);
         AtomicInteger sumLevel = new AtomicInteger(0);
+        AtomicInteger max = new AtomicInteger(0);
         entity.getNearbyEntities(radius, radius, radius).forEach(it -> {
             if(it instanceof Player) {
                 count.set(count.get() + 1);
@@ -85,15 +89,19 @@ public class EventListener implements Listener {
                 int defence = EcoSkillsAPI.getStatLevel((OfflinePlayer) it, Objects.requireNonNull(Stats.INSTANCE.getByID("defense")));
 
                 sumLevel.set(sumLevel.get() + strength + defence);
+
+                if(spawner && max.get() < (strength + defence))  max.set(strength + defence);
             }
         });
         int lvl = core.getDefaultLevel();
         if(count.get() != 0)
             lvl = sumLevel.get() / (4 * count.get());
+        if(spawner && max.get() != 0)
+            lvl = max.get() / 4;
 
         double hp = entity.getHealth() + (entity.getHealth() * (lvl * core.getHealthPercentMultiplier())); // 10% из конфига
 
-        entity.getPersistentDataContainer().set(core.getKey(), PersistentDataType.STRING, "zombie");
+        entity.getPersistentDataContainer().set(core.getKey(), PersistentDataType.STRING, event.getEntity().getType().toString());
         entity.getPersistentDataContainer().set(core.getLevelKey(), PersistentDataType.INTEGER, lvl);
         Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(hp);
         entity.setHealth(hp);
