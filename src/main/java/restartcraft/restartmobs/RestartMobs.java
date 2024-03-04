@@ -8,12 +8,16 @@ public final class RestartMobs extends JavaPlugin {
 
     private static RestartMobs instance;
 
+    private HpBar bar;
+    private Core core;
+
     @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
 
-        Core core = new Core();
+        core = new Core();
+        bar = new HpBar();
         core.initialization();
         // Plugin startup logic
 
@@ -26,4 +30,8 @@ public final class RestartMobs extends JavaPlugin {
     }
 
     public static RestartMobs getInstance() { return instance; }
+
+    public static HpBar getHpBar() { return instance.bar; }
+    public static Core getCore() { return instance.core; }
+
 }

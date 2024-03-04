@@ -18,32 +18,35 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class EventListener implements Listener {
-    Core core = new Core();
+    Core core = RestartMobs.getCore();
 
     @EventHandler
     public void damage(EntityDamageEvent event) {
-        if(event.getEntity().getPersistentDataContainer().has(core.getKey()) && core.isCustomname()) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(RestartMobs.getInstance(), () -> {
-                int lvl = event.getEntity().getPersistentDataContainer().get(core.getLevelKey(), PersistentDataType.INTEGER);
+        if(!core.isCustomname()) return;
 
-                String titleText = core.getPattern();
-                titleText = titleText.replace("{lvl}", lvl + "");
-                titleText = titleText.replace("{name}", core.getMobList().get(event.getEntity().getType().toString().toLowerCase()));
-                titleText = titleText.replace("{health}", ((int) ((LivingEntity) event.getEntity()).getHealth()) + "");
+        Bukkit.getScheduler().runTaskAsynchronously(RestartMobs.getInstance(), () -> {
+            if(event.getEntity().getPersistentDataContainer().has(core.getKey())) {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(RestartMobs.getInstance(), () -> {
+                    int lvl = event.getEntity().getPersistentDataContainer().get(core.getLevelKey(), PersistentDataType.INTEGER);
 
-                event.getEntity().customName(StringUtils.formatToComponent(titleText));
-            }, 1);
-        }
+                    String titleText = core.getPattern();
+                    titleText = titleText.replace("{lvl}", lvl + "");
+                    titleText = titleText.replace("{name}", core.getMobList().get(event.getEntity().getType().toString().toLowerCase()));
+                    titleText = titleText.replace("{health}", ((int) ((LivingEntity) event.getEntity()).getHealth()) + "");
+
+                    event.getEntity().customName(StringUtils.formatToComponent(titleText));
+                }, 1);
+            }
+        });
+
     }
 
     @EventHandler
     public void damage(EntityDamageByEntityEvent event) {
-        if(event.getEntity().getPersistentDataContainer().has(core.getKey())
-        && event.getDamager() instanceof Player
-        && core.isBossbar())
-            if(core.isBossbar())
-                Bukkit.getScheduler().scheduleSyncDelayedTask(RestartMobs.getInstance(), ()
-                    -> new hpBar().show((Player) event.getDamager(), (LivingEntity) event.getEntity()), 1);
+        if(core.isBossbar() && event.getEntity().getPersistentDataContainer().has(core.getLevelKey())
+        && event.getDamager() instanceof Player)
+            Bukkit.getScheduler().scheduleSyncDelayedTask(RestartMobs.getInstance(), ()
+                    -> RestartMobs.getHpBar().show((Player) event.getDamager(), (LivingEntity) event.getEntity()), 1);
 
         Entity damager = event.getDamager();
         if(damager instanceof Arrow || damager instanceof Fireball || damager instanceof ShulkerBullet) {
@@ -70,6 +73,12 @@ public class EventListener implements Listener {
             return;
 
         boolean spawner = event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER;
+        if(!spawner && event.getEntity().getType() == EntityType.ENDERMAN)
+            for(Entity entity : event.getEntity().getNearbyEntities(20, 5, 20))
+                if(entity.getType() == EntityType.ENDERMITE) {
+                    spawner = true;
+                    break;
+                }
 
         if(!core.getMobList().containsKey(event.getEntity().getType().toString().toLowerCase())) return;
 
@@ -81,6 +90,7 @@ public class EventListener implements Listener {
         AtomicInteger count = new AtomicInteger(0);
         AtomicInteger sumLevel = new AtomicInteger(0);
         AtomicInteger max = new AtomicInteger(0);
+        boolean finalSpawner = spawner;
         entity.getNearbyEntities(radius, radius, radius).forEach(it -> {
             if(it instanceof Player) {
                 count.set(count.get() + 1);
@@ -90,7 +100,7 @@ public class EventListener implements Listener {
 
                 sumLevel.set(sumLevel.get() + strength + defence);
 
-                if(spawner && max.get() < (strength + defence))  max.set(strength + defence);
+                if(finalSpawner && max.get() < (strength + defence))  max.set(strength + defence);
             }
         });
         int lvl = core.getDefaultLevel();

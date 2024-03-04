@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Core {
 
     private static double hpMultiplier, damageMultiplier, check_radius;
-    private static List<String> spawn_reason;
+    private static final List<String> spawn_reason = new ArrayList<>();
     private static final Map<String, String> mobList = new HashMap<>();
     private static int defaultLevel = 5, despawnMob;
     private static String pattern;
@@ -29,7 +29,7 @@ public class Core {
         hpMultiplier = fileConfiguration.getDouble("multiplier.health") / 100;
         damageMultiplier = fileConfiguration.getDouble("multiplier.damage") / 100;
         check_radius = fileConfiguration.getDouble("check-radius");
-        spawn_reason = (List<String>) fileConfiguration.getList("spawn-reasons");
+        Objects.requireNonNull(fileConfiguration.getList("spawn-reasons")).forEach(s -> spawn_reason.add(s.toString()));
         if(fileConfiguration.getConfigurationSection("mobs") != null)
             Objects.requireNonNull(fileConfiguration.getConfigurationSection("mobs")).getKeys(false).forEach(s
                     -> mobList.put(s, fileConfiguration.getString("mobs." + s)));
@@ -79,7 +79,9 @@ public class Core {
     public boolean isCustomname() { return customname; }
     public boolean isAlways_visible() { return always_visible; }
 
-    public NamespacedKey getKey() { return new NamespacedKey(RestartMobs.getInstance(), "custom"); }
-    public NamespacedKey getLevelKey() { return new NamespacedKey(RestartMobs.getInstance(), "lvl"); }
+    private final NamespacedKey key = new NamespacedKey(RestartMobs.getInstance(), "custom");
+    public NamespacedKey getKey() { return key; }
+    private final NamespacedKey lvlKey = new NamespacedKey(RestartMobs.getInstance(), "lvl");
+    public NamespacedKey getLevelKey() { return lvlKey; }
 
 }
