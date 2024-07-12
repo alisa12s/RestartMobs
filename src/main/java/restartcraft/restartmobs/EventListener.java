@@ -23,6 +23,7 @@ public class EventListener implements Listener {
     @EventHandler
     public void damage(EntityDamageEvent event) {
         if(!core.isCustomname()) return;
+        if(event.getEntity().getEntitySpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER) return;
 
         Bukkit.getScheduler().runTaskAsynchronously(RestartMobs.getInstance(), () -> {
             if(event.getEntity().getPersistentDataContainer().has(core.getKey())) {
@@ -115,7 +116,7 @@ public class EventListener implements Listener {
         entity.getPersistentDataContainer().set(core.getLevelKey(), PersistentDataType.INTEGER, lvl);
         Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(hp);
         entity.setHealth(hp);
-        if(core.isCustomname()) {
+        if(core.isCustomname() && event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER) {
             String titleText = core.getPattern();
             titleText = titleText.replace("{lvl}", lvl + "");
             titleText = titleText.replace("{name}", core.getMobList().get(event.getEntity().getType().toString().toLowerCase()));
