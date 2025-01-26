@@ -1,20 +1,24 @@
 hp-bar:
-  pattern: "&x&C&8&C&8&C&8[{lvl}ур.] &x&A&3&F&F&C&E{name} &8| &x&F&F&8&4&8&4{health} ❤"
+  pattern: "&x&C&8&C&8&C&8[{lvl}lvl.] &x&A&3&F&F&C&E{name} &8| &x&F&F&8&4&8&4{health} ❤"
   bossbar:
     enabled: false
   customname:
     enabled: true
-    time-to-mob-despawn: 120 # время в секундах, если 0 = выключено.
+    time-to-mob-despawn: 120 # time in seconds if 0 = disabled.
     always-visible: false
 
 
-multiplier: # в процентиках увеличение урона/хп за уровень
+multiplier: # percentage increase in damage/hp per level
   health: 10
   damage: 10
 
-check-radius: 10 # радиус проверки для калькулирования силы моба
+check-radius: 10 # radius checks to calculate mob strength
+spawner-detect: true # spawners detect
+# if enabled, then mobs from the spawner will have special spawn conditions
+# mobs will spawn at the maximum level for the strongest RPG player around
+# this will also work for the endermen farm
 
-spawn-reasons: # причины спавна, которые мы отслеживаем и усиливаем моба
+spawn-reasons: # reasons for spawning that we track and strengthen the mob
   - "NATURAL"
   - "JOCKEY"
   - "SPAWNER"
@@ -51,35 +55,35 @@ spawn-reasons: # причины спавна, которые мы отслежи
   - "DEFAULT"
 
 mobs:
-  blaze: Всполох
-  cave_spider: Пещерный паук
-  creeper: Крипер
-  enderman: Эндермен
-  endermite: Эндермит
-  evoker: Заклинатель
-  evoker_fangs: Клыки заклинателя
-  ghast: Гаст
-  giant: Гигант
-  guardian: Страж
-  husk: Кадавр
-  illusioner: Иллюзор
-  piglin: Пиглин
-  hoglin: Хоглин
-  shulker: Шалкер
-  silverfish: Чешуйница
-  skeleton: Скелет
-  slime: Слизень
-  spider: Паук
-  vex: Вредина
-  vindicator: Поборник
-  witch: Ведьма
-  wither_skeleton: Визер-скелет
-  zombie: Зомби
-  drowned: Утопленник
-  magma_cube: Магмовый куб
-  piglin_brute: Брутальный пиглин
-  pillager: Разбойник
-  ravager: Разоритель
-  zombified_piglin: Зомбифицированный пиглин
-  zombie_villager: Крестьянин-зомби
-  stray: Зимогор
+  blaze: Blaze
+  cave_spider: Cave spider
+  creeper: Creeper
+  enderman: Enderman
+  endermite: Endermite
+  evoker: Evoker
+  evoker_fangs: Evoker_fangs
+  ghast: Ghast
+  giant: Giant
+  guardian: Guardian
+  husk: Husk
+  illusioner: Illusioner
+  piglin: Piglin
+  hoglin: Hoglin
+  shulker: Shulker
+  silverfish: Silverfish
+  skeleton: Skeleton
+  slime: Slime
+  spider: Spider
+  vex: Vex
+  vindicator: Vindicator
+  witch: Witch
+  wither_skeleton: Wither skeleton
+  zombie: Zombie
+  drowned: Drowned
+  magma_cube: Magma cube
+  piglin_brute: Piglin brute
+  pillager: Pillager
+  ravager: Ravager
+  zombified_piglin: Zombified piglin
+  zombie_villager: Zombie villager
+  stray: Stray

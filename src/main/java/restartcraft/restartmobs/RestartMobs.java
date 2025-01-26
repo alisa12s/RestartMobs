@@ -18,8 +18,6 @@ public final class RestartMobs extends JavaPlugin {
 
         core = new Core();
         bar = new HpBar();
-        core.initialization();
-        // Plugin startup logic
 
         Bukkit.getPluginManager().registerEvents(new EventListener(), this);
     }
