@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class HpBar {
-    Core core = RestartMobs.getCore();
+    Core core = RestartMobs.core;
 
     private final Map<UUID, BossBar> mapBar = new HashMap<>();
     private final Map<UUID, BukkitTask> taskID = new HashMap<>();
@@ -33,7 +33,7 @@ public class HpBar {
             taskID.remove(uuid);
         } else bar = Bukkit.getServer().createBossBar("", BarColor.GREEN, BarStyle.SOLID);
 
-        double maxHealth = Objects.requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
+        double maxHealth = Objects.requireNonNull(livingEntity.getAttribute(Attribute.MAX_HEALTH)).getBaseValue();
         double health = livingEntity.getHealth();
 
         String titleText = core.pattern;

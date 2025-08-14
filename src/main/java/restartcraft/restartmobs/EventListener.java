@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class EventListener implements Listener {
-    Core core = RestartMobs.getCore();
+    Core core = RestartMobs.core;
 
     @EventHandler
     public void custom_name_change_event(EntityDamageEvent event) {
@@ -46,7 +46,7 @@ public class EventListener implements Listener {
         if(core.bossbar && event.getEntity().getPersistentDataContainer().has(core.lvlKey)
         && event.getDamager() instanceof Player)
             Bukkit.getScheduler().runTaskLaterAsynchronously(RestartMobs.getInstance(), ()
-                    -> RestartMobs.getHpBar().show((Player) event.getDamager(), (LivingEntity) event.getEntity()), 1);
+                    -> RestartMobs.bar.show((Player) event.getDamager(), (LivingEntity) event.getEntity()), 1);
 
         Entity damager = event.getDamager();
         if(damager instanceof Arrow || damager instanceof Fireball || damager instanceof ShulkerBullet) {
@@ -112,7 +112,7 @@ public class EventListener implements Listener {
 
         entity.getPersistentDataContainer().set(core.key, PersistentDataType.STRING, event.getEntity().getType().toString());
         entity.getPersistentDataContainer().set(core.lvlKey, PersistentDataType.INTEGER, lvl);
-        Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(hp);
+        Objects.requireNonNull(entity.getAttribute(Attribute.MAX_HEALTH)).setBaseValue(hp);
         entity.setHealth(hp);
         if(core.customname && event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER) {
             String titleText = core.pattern;
